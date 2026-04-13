@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { TrendingUp, TrendingDown, ShoppingCart, Sparkles, MapPin } from "lucide-react";
 import PageHeader from "@/components/PageHeader";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 const prices = [
   { crop: "🌾 Wheat", price: "₹2,450/q", trend: "up", change: "+₹120", market: "Wardha Mandi" },
@@ -17,40 +18,29 @@ const aiTips = [
 ];
 
 export default function Marketplace() {
+  const { t } = useLanguage();
+
   return (
     <div className="pb-24 max-w-lg mx-auto">
-      <PageHeader title="🏪 Smart Marketplace" subtitle="AI-powered pricing & selling tips" />
-
+      <PageHeader title={t.marketplaceTitle} subtitle={t.marketplaceSubtitle} />
       <div className="px-4 space-y-4">
-        {/* AI Tips */}
-        <motion.div
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="gradient-warm rounded-2xl p-4 shadow-elevated"
-        >
+        <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+          className="gradient-warm rounded-2xl p-4 shadow-elevated">
           <h3 className="font-bold text-sm flex items-center gap-1.5 mb-2 text-warning-foreground">
-            <Sparkles className="w-4 h-4" /> AI Selling Tips
+            <Sparkles className="w-4 h-4" /> {t.aiSellingTips}
           </h3>
           <ul className="space-y-2">
             {aiTips.map((tip, i) => (
               <li key={i} className="text-xs text-warning-foreground/90 flex items-start gap-2">
-                <span className="font-bold">•</span>
-                {tip}
+                <span className="font-bold">•</span>{tip}
               </li>
             ))}
           </ul>
         </motion.div>
-
-        {/* Price List */}
         <div className="space-y-2.5">
           {prices.map((p, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: i * 0.06 }}
-              className="bg-card rounded-2xl p-4 shadow-card flex items-center justify-between"
-            >
+            <motion.div key={i} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: i * 0.06 }} className="bg-card rounded-2xl p-4 shadow-card flex items-center justify-between">
               <div>
                 <h4 className="font-bold text-sm text-foreground">{p.crop}</h4>
                 <p className="text-xs text-muted-foreground flex items-center gap-1 mt-0.5">
