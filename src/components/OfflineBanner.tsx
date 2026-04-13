@@ -1,8 +1,10 @@
 import { WifiOff } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useLanguage } from "@/i18n/LanguageContext";
 
 export default function OfflineBanner() {
   const [offline, setOffline] = useState(!navigator.onLine);
+  const { t } = useLanguage();
 
   useEffect(() => {
     const goOff = () => setOffline(true);
@@ -20,7 +22,7 @@ export default function OfflineBanner() {
   return (
     <div className="bg-warning text-warning-foreground text-xs font-semibold flex items-center justify-center gap-1.5 py-1.5 px-3">
       <WifiOff className="w-3.5 h-3.5" />
-      Offline Mode — Using saved data
+      {t.offlineMode}
     </div>
   );
 }

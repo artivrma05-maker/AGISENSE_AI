@@ -1,15 +1,18 @@
 import { Home, Camera, CloudSun, MessageCircle, User } from "lucide-react";
 import { NavLink } from "react-router-dom";
-
-const navItems = [
-  { to: "/", icon: Home, label: "Home" },
-  { to: "/detect", icon: Camera, label: "Detect" },
-  { to: "/weather", icon: CloudSun, label: "Weather" },
-  { to: "/community", icon: MessageCircle, label: "Chat" },
-  { to: "/profile", icon: User, label: "Profile" },
-];
+import { useLanguage } from "@/i18n/LanguageContext";
 
 export default function BottomNav() {
+  const { t } = useLanguage();
+
+  const navItems = [
+    { to: "/", icon: Home, label: t.navHome },
+    { to: "/detect", icon: Camera, label: t.navDetect },
+    { to: "/weather", icon: CloudSun, label: t.navWeather },
+    { to: "/community", icon: MessageCircle, label: t.navChat },
+    { to: "/profile", icon: User, label: t.navProfile },
+  ];
+
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-lg border-t border-border">
       <div className="flex items-center justify-around max-w-lg mx-auto h-16 px-2">
