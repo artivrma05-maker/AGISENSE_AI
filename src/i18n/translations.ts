@@ -39,6 +39,7 @@ type TranslationStrings = {
   navWeather: string;
   navChat: string;
   navProfile: string;
+  navVoice: string;
 
   // Features
   diseaseDetection: string;
