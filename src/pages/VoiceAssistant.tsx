@@ -94,6 +94,7 @@ export default function VoiceAssistant() {
   const [isSpeaking, setIsSpeaking] = useState(false);
   const [isOffline, setIsOffline] = useState(!navigator.onLine);
   const [transcript, setTranscript] = useState("");
+  const transcriptRef = useRef("");
   const recognitionRef = useRef<any>(null);
   const msgIdRef = useRef(0);
   const chatEndRef = useRef<HTMLDivElement>(null);
@@ -175,16 +176,19 @@ export default function VoiceAssistant() {
           interim += e.results[i][0].transcript;
         }
       }
-      setTranscript(final || interim);
+      const text = final || interim;
+      setTranscript(text);
+      transcriptRef.current = text;
     };
 
     recognition.onend = () => {
       setIsListening(false);
-      const finalText = transcript.trim();
+      const finalText = transcriptRef.current.trim();
       if (finalText) {
         const userMsg: ChatMessage = { id: ++msgIdRef.current, role: "user", text: finalText };
         setMessages(prev => [...prev, userMsg]);
         setTranscript("");
+        transcriptRef.current = "";
         setTimeout(() => handleAIResponse(finalText), 800);
       }
     };
