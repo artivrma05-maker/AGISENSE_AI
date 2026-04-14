@@ -61,6 +61,7 @@
     --gradient-warm: linear-gradient(135deg, hsl(36 80% 55%), hsl(30 90% 45%));
     --gradient-danger: linear-gradient(135deg, hsl(0 72% 51%), hsl(0 60% 40%));
     --gradient-sky: linear-gradient(135deg, hsl(200 70% 50%), hsl(210 70% 40%));
+    --gradient-farming: linear-gradient(180deg, hsl(200 70% 88%) 0%, hsl(142 40% 90%) 50%, hsl(85 30% 93%) 100%);
 
     --shadow-card: 0 4px 20px -4px hsl(142 50% 32% / 0.12);
     --shadow-elevated: 0 8px 30px -6px hsl(142 50% 32% / 0.2);
@@ -114,10 +115,34 @@
   .gradient-sky {
     background: var(--gradient-sky);
   }
+  .gradient-farming {
+    background: var(--gradient-farming);
+  }
   .shadow-card {
     box-shadow: var(--shadow-card);
   }
   .shadow-elevated {
     box-shadow: var(--shadow-elevated);
+  }
+  .bg-farming-pattern {
+    position: relative;
+  }
+  .bg-farming-pattern::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--gradient-farming);
+    z-index: -1;
+    pointer-events: none;
+  }
+  .bg-farming-pattern::after {
+    content: '🌾';
+    position: absolute;
+    top: 8px;
+    right: 16px;
+    font-size: 2rem;
+    opacity: 0.08;
+    z-index: -1;
+    pointer-events: none;
   }
 }

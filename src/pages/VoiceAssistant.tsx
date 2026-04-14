@@ -220,7 +220,7 @@ export default function VoiceAssistant() {
   };
 
   return (
-    <div className="flex flex-col h-[100dvh] max-w-lg mx-auto bg-background">
+    <div className="flex flex-col h-[100dvh] max-w-lg mx-auto gradient-farming relative">
       {/* Header */}
       <div className="flex items-center gap-3 px-4 pt-4 pb-3 border-b border-border">
         <button onClick={() => navigate(-1)} className="p-2 rounded-xl bg-muted">
@@ -333,19 +333,32 @@ export default function VoiceAssistant() {
       {/* Mic Button Area */}
       <div className="pb-6 pt-3 px-4 border-t border-border bg-background/90 backdrop-blur-md">
         <div className="flex flex-col items-center gap-3">
-          <motion.button
-            whileTap={{ scale: 0.9 }}
-            onClick={isListening ? stopListening : startListening}
-            className={`w-20 h-20 rounded-full flex items-center justify-center shadow-elevated transition-all ${
-              isListening
-                ? "gradient-danger animate-pulse"
-                : "gradient-hero"
-            }`}
-          >
-            {isListening
-              ? <MicOff className="w-9 h-9 text-primary-foreground" />
-              : <Mic className="w-9 h-9 text-primary-foreground" />}
-          </motion.button>
+          <div className="relative">
+            {/* Ripple rings when listening */}
+            {isListening && (
+              <>
+                <span className="absolute inset-0 rounded-full animate-mic-ripple border-2 border-danger/40 pointer-events-none" />
+                <span className="absolute inset-0 rounded-full animate-mic-ripple border-2 border-danger/30 pointer-events-none" style={{ animationDelay: '0.5s' }} />
+              </>
+            )}
+            {/* Pulse ring when idle */}
+            {!isListening && (
+              <span className="absolute inset-[-6px] rounded-full animate-mic-pulse pointer-events-none" />
+            )}
+            <motion.button
+              whileTap={{ scale: 0.85 }}
+              onClick={isListening ? stopListening : startListening}
+              className={`relative z-10 w-20 h-20 rounded-full flex items-center justify-center shadow-elevated transition-all ${
+                isListening
+                  ? "gradient-danger"
+                  : "gradient-hero"
+              }`}
+            >
+              {isListening
+                ? <MicOff className="w-9 h-9 text-primary-foreground" />
+                : <Mic className="w-9 h-9 text-primary-foreground" />}
+            </motion.button>
+          </div>
           <p className="text-xs font-bold text-muted-foreground">
             {isListening
               ? (isHindi ? "रोकने के लिए दबाएं" : "Tap to stop")

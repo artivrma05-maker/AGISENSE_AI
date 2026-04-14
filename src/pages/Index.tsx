@@ -23,21 +23,26 @@ export default function Index() {
   const currentLang = languages.find((l) => l.code === lang);
 
   return (
-    <div className="pb-24 px-4 max-w-lg mx-auto">
+    <div className="pb-24 px-4 max-w-lg mx-auto min-h-screen gradient-farming relative overflow-hidden">
+      {/* Subtle farming decorations */}
+      <div className="absolute top-4 right-6 text-4xl opacity-[0.06] animate-sway pointer-events-none select-none">🌾</div>
+      <div className="absolute top-20 left-4 text-3xl opacity-[0.05] animate-float pointer-events-none select-none">🌱</div>
+      <div className="absolute top-2 left-1/3 text-2xl opacity-[0.05] animate-soft-glow pointer-events-none select-none">☀️</div>
+
       {/* Hero */}
       <motion.div
         initial={{ opacity: 0, y: -10 }}
         animate={{ opacity: 1, y: 0 }}
-        className="pt-6 pb-4"
+        className="pt-6 pb-4 relative z-10"
       >
         <div className="flex items-center justify-between mb-1">
           <div className="flex items-center gap-2">
-            <Sprout className="w-7 h-7 text-primary" />
+            <Sprout className="w-7 h-7 text-primary animate-sway" />
             <h1 className="text-2xl font-black text-foreground tracking-tight">{t.appName}</h1>
           </div>
           <button
             onClick={() => navigate("/language")}
-            className="flex items-center gap-1.5 bg-card rounded-xl px-3 py-1.5 shadow-card text-sm"
+            className="flex items-center gap-1.5 bg-card/80 backdrop-blur-sm rounded-xl px-3 py-1.5 shadow-card text-sm"
           >
             <Globe className="w-4 h-4 text-primary" />
             <span className="font-semibold text-foreground text-xs">{currentLang?.nativeName}</span>
@@ -48,16 +53,18 @@ export default function Index() {
 
       {/* Quick Voice */}
       <motion.button
-        whileTap={{ scale: 0.97 }}
+        whileTap={{ scale: 0.95 }}
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
+        transition={{ type: "spring", stiffness: 300, damping: 20 }}
         onClick={() => navigate("/voice")}
-        className="w-full rounded-2xl gradient-hero p-5 mb-5 flex items-center gap-4 shadow-elevated"
+        className="w-full rounded-2xl gradient-hero p-5 mb-5 flex items-center gap-4 shadow-elevated relative overflow-hidden"
       >
-        <div className="w-12 h-12 rounded-full bg-primary-foreground/20 flex items-center justify-center">
+        <div className="absolute inset-0 bg-primary-foreground/5 animate-soft-glow pointer-events-none" />
+        <div className="w-12 h-12 rounded-full bg-primary-foreground/20 flex items-center justify-center animate-mic-pulse">
           <Mic className="w-6 h-6 text-primary-foreground" />
         </div>
-        <div className="text-left">
+        <div className="text-left relative z-10">
           <h2 className="font-bold text-primary-foreground text-base">{t.askKisanMitra}</h2>
           <p className="text-xs text-primary-foreground/70">{t.tapToSpeak}</p>
         </div>
