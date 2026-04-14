@@ -51,7 +51,7 @@ export default function Index() {
         whileTap={{ scale: 0.97 }}
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        onClick={() => {}}
+        onClick={() => navigate("/voice")}
         className="w-full rounded-2xl gradient-hero p-5 mb-5 flex items-center gap-4 shadow-elevated"
       >
         <div className="w-12 h-12 rounded-full bg-primary-foreground/20 flex items-center justify-center">

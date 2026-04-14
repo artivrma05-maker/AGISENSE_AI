@@ -1,4 +1,4 @@
-import { Home, Camera, CloudSun, MessageCircle, User } from "lucide-react";
+import { Home, Camera, Mic, MessageCircle, User } from "lucide-react";
 import { NavLink } from "react-router-dom";
 import { useLanguage } from "@/i18n/LanguageContext";
 
@@ -8,7 +8,7 @@ export default function BottomNav() {
   const navItems = [
     { to: "/", icon: Home, label: t.navHome },
     { to: "/detect", icon: Camera, label: t.navDetect },
-    { to: "/weather", icon: CloudSun, label: t.navWeather },
+    { to: "/voice", icon: Mic, label: t.navVoice || "Voice" },
     { to: "/community", icon: MessageCircle, label: t.navChat },
     { to: "/profile", icon: User, label: t.navProfile },
   ];

@@ -20,6 +20,7 @@ import ProfitPredictor from "./pages/ProfitPredictor";
 import SoilScanner from "./pages/SoilScanner";
 import Expenses from "./pages/Expenses";
 import LanguageSettings from "./pages/LanguageSettings";
+import VoiceAssistant from "./pages/VoiceAssistant";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -47,6 +48,7 @@ function AppContent() {
         <Route path="/soil" element={<SoilScanner />} />
         <Route path="/expenses" element={<Expenses />} />
         <Route path="/language" element={<LanguageSettings />} />
+        <Route path="/voice" element={<VoiceAssistant />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
       <EmergencyButton />
