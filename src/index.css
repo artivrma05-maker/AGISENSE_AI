@@ -65,6 +65,7 @@
 
     --shadow-card: 0 4px 20px -4px hsl(142 50% 32% / 0.12);
     --shadow-elevated: 0 8px 30px -6px hsl(142 50% 32% / 0.2);
+    --shadow-glow: 0 0 20px hsl(142 50% 32% / 0.15);
 
     --font-display: 'Nunito', sans-serif;
   }
@@ -125,25 +126,123 @@
   .shadow-elevated {
     box-shadow: var(--shadow-elevated);
   }
-  .bg-farming-pattern {
-    position: relative;
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
   }
-  .bg-farming-pattern::before {
+
+  /* Animated farming scene background */
+  .bg-farming-scene {
+    position: relative;
+    overflow: hidden;
+  }
+  .bg-farming-scene::before {
     content: '';
     position: absolute;
     inset: 0;
     background: var(--gradient-farming);
-    z-index: -1;
+    z-index: -2;
     pointer-events: none;
   }
-  .bg-farming-pattern::after {
-    content: '🌾';
+
+  /* Animated cloud layer */
+  .cloud-layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 120px;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+  }
+  .cloud {
+    position: absolute;
+    width: 80px;
+    height: 30px;
+    background: hsl(0 0% 100% / 0.25);
+    border-radius: 999px;
+    animation: drift-cloud linear infinite;
+    filter: blur(1px);
+  }
+  .cloud::after {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 20px;
+    width: 40px;
+    height: 30px;
+    background: hsl(0 0% 100% / 0.2);
+    border-radius: 999px;
+  }
+  .cloud-1 { top: 10px; animation-duration: 40s; width: 70px; opacity: 0.6; }
+  .cloud-2 { top: 40px; animation-duration: 55s; animation-delay: -15s; width: 90px; opacity: 0.4; }
+  .cloud-3 { top: 25px; animation-duration: 48s; animation-delay: -30s; width: 60px; opacity: 0.5; }
+
+  /* Sun glow */
+  .sun-glow {
     position: absolute;
     top: 8px;
-    right: 16px;
-    font-size: 2rem;
-    opacity: 0.08;
-    z-index: -1;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: radial-gradient(circle, hsl(45 95% 65% / 0.35) 0%, hsl(45 95% 65% / 0) 70%);
+    animation: sun-pulse 4s ease-in-out infinite;
     pointer-events: none;
+    z-index: -1;
+  }
+
+  /* Field wave at bottom */
+  .field-wave {
+    position: absolute;
+    bottom: 60px;
+    left: 0;
+    right: 0;
+    height: 40px;
+    pointer-events: none;
+    z-index: -1;
+    display: flex;
+    align-items: flex-end;
+    gap: 3px;
+    padding: 0 10px;
+    opacity: 0.07;
+  }
+  .grass-blade {
+    width: 3px;
+    height: 20px;
+    background: hsl(142 50% 32%);
+    border-radius: 2px 2px 0 0;
+    transform-origin: bottom center;
+    animation: wind-sway 3s ease-in-out infinite;
+  }
+  .grass-blade:nth-child(odd) { height: 25px; animation-delay: -0.5s; }
+  .grass-blade:nth-child(3n) { height: 18px; animation-delay: -1s; }
+  .grass-blade:nth-child(5n) { height: 28px; animation-delay: -1.5s; }
+
+  /* Sound bars for speaking state */
+  .sound-bars {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    height: 20px;
+  }
+  .sound-bar {
+    width: 3px;
+    border-radius: 999px;
+    background: hsl(var(--accent));
+    animation: sound-bar-bounce 0.6s ease-in-out infinite alternate;
+  }
+  .sound-bar:nth-child(1) { height: 6px; animation-delay: 0s; }
+  .sound-bar:nth-child(2) { height: 12px; animation-delay: 0.1s; }
+  .sound-bar:nth-child(3) { height: 18px; animation-delay: 0.2s; }
+  .sound-bar:nth-child(4) { height: 12px; animation-delay: 0.3s; }
+  .sound-bar:nth-child(5) { height: 6px; animation-delay: 0.4s; }
+
+  /* Leaf spinner loader */
+  .leaf-spinner {
+    display: inline-block;
+    width: 24px;
+    height: 24px;
+    animation: leaf-spin 1.2s linear infinite;
   }
 }
