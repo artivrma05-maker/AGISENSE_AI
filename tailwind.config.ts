@@ -109,14 +109,43 @@ export default {
         },
         "float": {
           "0%, 100%": { transform: "translateY(0)" },
-          "50%": { transform: "translateY(-4px)" },
+          "50%": { transform: "translateY(-6px)" },
         },
         "sway": {
-          "0%, 100%": { transform: "rotate(-2deg)" },
-          "50%": { transform: "rotate(2deg)" },
+          "0%, 100%": { transform: "rotate(-3deg)" },
+          "50%": { transform: "rotate(3deg)" },
         },
         "soft-glow": {
-          "0%, 100%": { opacity: "0.7" },
+          "0%, 100%": { opacity: "0.6" },
+          "50%": { opacity: "1" },
+        },
+        "drift-cloud": {
+          "0%": { transform: "translateX(-120px)" },
+          "100%": { transform: "translateX(calc(100vw + 120px))" },
+        },
+        "sun-pulse": {
+          "0%, 100%": { transform: "scale(1)", opacity: "0.6" },
+          "50%": { transform: "scale(1.15)", opacity: "1" },
+        },
+        "wind-sway": {
+          "0%, 100%": { transform: "rotate(-4deg)" },
+          "25%": { transform: "rotate(3deg)" },
+          "75%": { transform: "rotate(-2deg)" },
+        },
+        "sound-bar-bounce": {
+          "0%": { transform: "scaleY(0.4)" },
+          "100%": { transform: "scaleY(1)" },
+        },
+        "leaf-spin": {
+          "0%": { transform: "rotate(0deg)" },
+          "100%": { transform: "rotate(360deg)" },
+        },
+        "slide-up-fade": {
+          "0%": { opacity: "0", transform: "translateY(16px)" },
+          "100%": { opacity: "1", transform: "translateY(0)" },
+        },
+        "glow-blink": {
+          "0%, 100%": { opacity: "0.4" },
           "50%": { opacity: "1" },
         },
       },
@@ -129,6 +158,13 @@ export default {
         "float": "float 3s ease-in-out infinite",
         "sway": "sway 4s ease-in-out infinite",
         "soft-glow": "soft-glow 2.5s ease-in-out infinite",
+        "drift-cloud": "drift-cloud 40s linear infinite",
+        "sun-pulse": "sun-pulse 4s ease-in-out infinite",
+        "wind-sway": "wind-sway 3s ease-in-out infinite",
+        "sound-bar-bounce": "sound-bar-bounce 0.6s ease-in-out infinite alternate",
+        "leaf-spin": "leaf-spin 1.2s linear infinite",
+        "slide-up-fade": "slide-up-fade 0.4s ease-out",
+        "glow-blink": "glow-blink 2s ease-in-out infinite",
       },
     },
   },

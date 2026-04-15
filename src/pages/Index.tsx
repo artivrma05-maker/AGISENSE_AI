@@ -23,11 +23,25 @@ export default function Index() {
   const currentLang = languages.find((l) => l.code === lang);
 
   return (
-    <div className="pb-24 px-4 max-w-lg mx-auto min-h-screen gradient-farming relative overflow-hidden">
+    <div className="pb-24 px-4 max-w-lg mx-auto min-h-screen bg-farming-scene relative">
+      {/* Animated sky scene */}
+      <div className="cloud-layer">
+        <div className="cloud cloud-1" />
+        <div className="cloud cloud-2" />
+        <div className="cloud cloud-3" />
+      </div>
+      <div className="sun-glow" />
+
+      {/* Animated grass field */}
+      <div className="field-wave">
+        {Array.from({ length: 30 }).map((_, i) => (
+          <div key={i} className="grass-blade" style={{ animationDelay: `${i * 0.1}s` }} />
+        ))}
+      </div>
+
       {/* Subtle farming decorations */}
       <div className="absolute top-4 right-6 text-4xl opacity-[0.06] animate-sway pointer-events-none select-none">🌾</div>
       <div className="absolute top-20 left-4 text-3xl opacity-[0.05] animate-float pointer-events-none select-none">🌱</div>
-      <div className="absolute top-2 left-1/3 text-2xl opacity-[0.05] animate-soft-glow pointer-events-none select-none">☀️</div>
 
       {/* Hero */}
       <motion.div
