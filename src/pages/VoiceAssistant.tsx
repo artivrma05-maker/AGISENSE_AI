@@ -317,15 +317,28 @@ export default function VoiceAssistant() {
         )}
       </AnimatePresence>
 
-      {/* Speaking indicator */}
+      {/* Speaking indicator with sound bars */}
       <AnimatePresence>
         {isSpeaking && (
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-            className="mx-4 mb-2 flex items-center justify-center gap-2 bg-accent/15 rounded-xl px-3 py-2">
-            <Volume2 className="w-4 h-4 text-accent" />
+            className="mx-4 mb-2 flex items-center justify-center gap-3 bg-accent/15 rounded-xl px-3 py-2.5">
+            <div className="sound-bars">
+              <div className="sound-bar" />
+              <div className="sound-bar" />
+              <div className="sound-bar" />
+              <div className="sound-bar" />
+              <div className="sound-bar" />
+            </div>
             <span className="text-xs font-semibold text-accent">
               {isHindi ? "बोल रहा है…" : "Speaking…"}
             </span>
+            <div className="sound-bars">
+              <div className="sound-bar" />
+              <div className="sound-bar" />
+              <div className="sound-bar" />
+              <div className="sound-bar" />
+              <div className="sound-bar" />
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
