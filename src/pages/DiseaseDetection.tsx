@@ -6,6 +6,10 @@ import {
   Loader2,
   Leaf,
   AlertCircle,
+  ShieldCheck,
+  Stethoscope,
+  RefreshCw,
+  Sprout,
 } from "lucide-react";
 
 import PageHeader from "@/components/PageHeader";
@@ -33,22 +37,18 @@ export default function DiseaseDetection() {
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
-  // Capture button
   const handleCapture = () => {
     setImage(
-      "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400&h=400&fit=crop"
+      "https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=800&h=600&fit=crop"
     );
-
     setSelectedFile(null);
     setResult(null);
   };
 
-  // Open gallery/file picker
   const handleUploadClick = () => {
     fileInputRef.current?.click();
   };
 
-  // When user selects an image
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
 
@@ -66,7 +66,6 @@ export default function DiseaseDetection() {
     setResult(null);
   };
 
-  // Send image to backend
   const handleAnalyze = async () => {
     if (!selectedFile) {
       alert("Please upload an image first.");
@@ -107,7 +106,6 @@ export default function DiseaseDetection() {
     }
   };
 
-  // Reset everything
   const handleScanAgain = () => {
     setImage(null);
     setSelectedFile(null);
@@ -119,84 +117,101 @@ export default function DiseaseDetection() {
   };
 
   return (
-    <div className="pb-24 max-w-lg mx-auto">
+    <div className="pb-24 max-w-2xl mx-auto">
       <PageHeader
         title={t.diseaseDetectionTitle}
         subtitle={t.scanCropCamera}
       />
 
-      <div className="px-4 space-y-4">
+      <div className="px-4 space-y-5">
+
+        {/* Upload Section */}
         {!image ? (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="border-2 border-dashed border-primary/30 rounded-2xl h-64 flex flex-col items-center justify-center gap-3"
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="relative overflow-hidden rounded-3xl border border-primary/20 bg-gradient-to-br from-primary/5 via-card to-primary/10 p-6 shadow-sm"
           >
-            <Camera className="w-12 h-12 text-primary/50" />
+            <div className="absolute -right-10 -top-10 w-32 h-32 rounded-full bg-primary/10 blur-2xl" />
 
-            <p className="text-sm text-muted-foreground">
-              {t.takePhotoAffected}
-            </p>
+            <div className="relative flex flex-col items-center justify-center min-h-64 text-center">
+              <div className="w-20 h-20 rounded-3xl bg-primary/10 flex items-center justify-center mb-4">
+                <Leaf className="w-10 h-10 text-primary" />
+              </div>
 
-            <div className="flex gap-2">
-              {/* Capture */}
-              <Button
-                onClick={handleCapture}
-                className="gradient-hero text-primary-foreground rounded-xl"
-              >
-                <Camera className="w-4 h-4 mr-2" />
-                {t.capture}
-              </Button>
+              <h2 className="text-lg font-bold mb-1">
+                Scan Your Crop
+              </h2>
 
-              {/* Upload */}
-              <Button
-                variant="outline"
-                onClick={handleUploadClick}
-                className="rounded-xl"
-              >
-                <Upload className="w-4 h-4 mr-2" />
-                {t.upload}
-              </Button>
+              <p className="text-sm text-muted-foreground max-w-xs mb-5">
+                Upload a clear leaf image and let AGISENSE AI analyze possible
+                crop diseases.
+              </p>
 
-              {/* Hidden file picker */}
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/png,image/jpeg,image/jpg"
-                onChange={handleFileChange}
-                className="hidden"
-              />
+              <div className="flex gap-3">
+                <Button
+                  onClick={handleCapture}
+                  className="gradient-hero text-primary-foreground rounded-xl px-5"
+                >
+                  <Camera className="w-4 h-4 mr-2" />
+                  {t.capture}
+                </Button>
+
+                <Button
+                  variant="outline"
+                  onClick={handleUploadClick}
+                  className="rounded-xl px-5"
+                >
+                  <Upload className="w-4 h-4 mr-2" />
+                  {t.upload}
+                </Button>
+
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/png,image/jpeg,image/jpg"
+                  onChange={handleFileChange}
+                  className="hidden"
+                />
+              </div>
             </div>
           </motion.div>
         ) : (
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
+            initial={{ opacity: 0, scale: 0.97 }}
             animate={{ opacity: 1, scale: 1 }}
+            className="space-y-4"
           >
-            {/* Uploaded image */}
-            <img
-              src={image}
-              alt="Selected crop"
-              className="w-full h-56 object-cover rounded-2xl"
-            />
+            {/* Image Preview */}
+            <div className="relative overflow-hidden rounded-3xl border border-border shadow-sm">
+              <img
+                src={image}
+                alt="Selected crop"
+                className="w-full h-64 object-cover"
+              />
 
-            {/* Analyze */}
-            {!result && (
-              <Button
-                onClick={handleAnalyze}
-                disabled={analyzing}
-                className="w-full mt-3 gradient-hero text-primary-foreground rounded-xl h-12 text-base font-bold"
-              >
-                {analyzing ? (
-                  <>
-                    <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                    Analyzing...
-                  </>
-                ) : (
-                  "Analyze Disease"
-                )}
-              </Button>
-            )}
+              {!result && (
+                <div className="absolute bottom-3 left-3 right-3">
+                  <Button
+                    onClick={handleAnalyze}
+                    disabled={analyzing}
+                    className="w-full gradient-hero text-primary-foreground rounded-xl h-12 text-base font-bold shadow-lg"
+                  >
+                    {analyzing ? (
+                      <>
+                        <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                        Analyzing with AI...
+                      </>
+                    ) : (
+                      <>
+                        <Stethoscope className="w-5 h-5 mr-2" />
+                        Analyze Disease
+                      </>
+                    )}
+                  </Button>
+                </div>
+              )}
+            </div>
           </motion.div>
         )}
 
@@ -205,82 +220,142 @@ export default function DiseaseDetection() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="space-y-3"
+            className="space-y-4"
           >
-            {/* Disease + Confidence */}
-            <div className="bg-destructive/10 border border-destructive/20 rounded-2xl p-4">
-              <div className="flex items-center gap-2 mb-2">
-                <AlertCircle className="w-5 h-5 text-destructive" />
 
-                <span className="font-bold text-destructive">
-                  {result.disease}
-                </span>
+            {/* Main Result Card */}
+            <div className="relative overflow-hidden rounded-3xl border border-destructive/20 bg-gradient-to-br from-destructive/10 via-card to-card p-5 shadow-sm">
+              <div className="flex items-start gap-3">
+                <div className="w-11 h-11 rounded-2xl bg-destructive/10 flex items-center justify-center shrink-0">
+                  <AlertCircle className="w-6 h-6 text-destructive" />
+                </div>
 
-                <span className="ml-auto text-xs bg-destructive/20 text-destructive px-2 py-0.5 rounded-full font-bold">
-                  {result.confidence}% Confidence
+                <div className="flex-1 min-w-0">
+                  <p className="text-xs text-muted-foreground mb-1">
+                    AI Detection Result
+                  </p>
+
+                  <h2 className="text-xl font-bold leading-tight">
+                    {result.disease}
+                  </h2>
+                </div>
+
+                <span className="shrink-0 text-xs font-bold px-3 py-1.5 rounded-full bg-destructive/10 text-destructive">
+                  {result.severity}
                 </span>
               </div>
 
-              <p className="text-xs text-muted-foreground">
-                Crop: {result.crop}
-              </p>
+              {/* Crop */}
+              <div className="flex items-center gap-2 mt-4 text-sm">
+                <Sprout className="w-4 h-4 text-primary" />
+                <span className="text-muted-foreground">Crop:</span>
+                <span className="font-semibold">{result.crop}</span>
+              </div>
 
-              <p className="text-xs text-muted-foreground mt-1">
-                Severity:{" "}
-                <span className="font-semibold">
-                  {result.severity}
-                </span>
-              </p>
+              {/* Confidence */}
+              <div className="mt-5">
+                <div className="flex justify-between items-center mb-2">
+                  <span className="text-sm font-semibold">
+                    AI Confidence
+                  </span>
+
+                  <span className="text-sm font-bold text-primary">
+                    {result.confidence}%
+                  </span>
+                </div>
+
+                <div className="h-2.5 w-full rounded-full bg-muted overflow-hidden">
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: `${result.confidence}%` }}
+                    transition={{ duration: 0.8 }}
+                    className="h-full rounded-full bg-primary"
+                  />
+                </div>
+              </div>
             </div>
 
             {/* Symptoms */}
-            <div className="bg-card rounded-2xl p-4 shadow-card">
-              <h3 className="font-bold text-sm mb-2">
-                🔍 Symptoms
-              </h3>
+            <div className="rounded-3xl bg-card border border-border p-5 shadow-sm">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-2xl bg-orange-500/10 flex items-center justify-center">
+                  <AlertCircle className="w-5 h-5 text-orange-500" />
+                </div>
 
-              <ul className="text-sm text-muted-foreground space-y-1">
+                <div>
+                  <h3 className="font-bold">Symptoms</h3>
+                  <p className="text-xs text-muted-foreground">
+                    Common signs detected
+                  </p>
+                </div>
+              </div>
+
+              <div className="space-y-2.5">
                 {result.symptoms.map((symptom, index) => (
-                  <li key={index}>• {symptom}</li>
+                  <div
+                    key={index}
+                    className="flex gap-3 text-sm text-muted-foreground"
+                  >
+                    <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-primary shrink-0" />
+                    <span>{symptom}</span>
+                  </div>
                 ))}
-              </ul>
+              </div>
             </div>
 
-            {/* Remedy */}
-            <div className="bg-card rounded-2xl p-4 shadow-card">
-              <h3 className="font-bold text-sm flex items-center gap-1.5 mb-2">
-                <Leaf className="w-4 h-4 text-primary" />
-                Treatment / Advisory
-              </h3>
+            {/* Treatment */}
+            <div className="rounded-3xl bg-card border border-border p-5 shadow-sm">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-2xl bg-primary/10 flex items-center justify-center">
+                  <Leaf className="w-5 h-5 text-primary" />
+                </div>
 
-              <p className="text-sm text-muted-foreground leading-relaxed">
+                <div>
+                  <h3 className="font-bold">Treatment / Advisory</h3>
+                  <p className="text-xs text-muted-foreground">
+                    Recommended next steps
+                  </p>
+                </div>
+              </div>
+
+              <p className="text-sm text-muted-foreground leading-7">
                 {result.remedy}
               </p>
             </div>
 
             {/* Prevention */}
-            <div className="bg-card rounded-2xl p-4 shadow-card">
-              <h3 className="font-bold text-sm mb-2">
-                🛡️ Prevention
-              </h3>
+            <div className="rounded-3xl bg-card border border-border p-5 shadow-sm">
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-10 h-10 rounded-2xl bg-blue-500/10 flex items-center justify-center">
+                  <ShieldCheck className="w-5 h-5 text-blue-500" />
+                </div>
 
-              <p className="text-sm text-muted-foreground leading-relaxed">
+                <div>
+                  <h3 className="font-bold">Prevention</h3>
+                  <p className="text-xs text-muted-foreground">
+                    Protect your crop
+                  </p>
+                </div>
+              </div>
+
+              <p className="text-sm text-muted-foreground leading-7">
                 {result.prevention}
               </p>
             </div>
 
-            {/* Scan again */}
+            {/* Scan Again */}
             <Button
               variant="outline"
               onClick={handleScanAgain}
-              className="w-full rounded-xl"
+              className="w-full rounded-xl h-12 font-semibold"
             >
+              <RefreshCw className="w-4 h-4 mr-2" />
               Scan Another Plant
             </Button>
 
-            {/* Demo notice */}
-            <p className="text-center text-xs text-muted-foreground">
-              ⚠️ Demo analysis — actual ML model integration will be added later.
+            <p className="text-center text-xs text-muted-foreground px-4">
+              AI-powered classification result. For important crop-management
+              decisions, verify the diagnosis with a local agricultural expert.
             </p>
           </motion.div>
         )}
