@@ -16,6 +16,11 @@ import PageHeader from "@/components/PageHeader";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/i18n/LanguageContext";
 
+type Prediction = {
+  label: string;
+  confidence: number;
+};
+
 type DiseaseResult = {
   success: boolean;
   disease: string;
@@ -25,6 +30,7 @@ type DiseaseResult = {
   symptoms: string[];
   remedy: string;
   prevention: string;
+  predictions?: Prediction[];
 };
 
 export default function DiseaseDetection() {
@@ -274,6 +280,59 @@ export default function DiseaseDetection() {
                 </div>
               </div>
             </div>
+            {/* AI Prediction Alternatives */}
+{result.predictions && result.predictions.length > 1 && (
+  <div className="rounded-3xl bg-card border border-border p-5 shadow-sm">
+    <div className="flex items-center gap-3 mb-4">
+      <div className="w-10 h-10 rounded-2xl bg-primary/10 flex items-center justify-center">
+        <Stethoscope className="w-5 h-5 text-primary" />
+      </div>
+
+      <div>
+        <h3 className="font-bold">AI Prediction Analysis</h3>
+        <p className="text-xs text-muted-foreground">
+          Other possible classifications
+        </p>
+      </div>
+    </div>
+
+    <div className="space-y-3">
+      {result.predictions.slice(0, 5).map((prediction, index) => {
+        const readableLabel = prediction.label
+          .replace(/___/g, " - ")
+          .replace(/_/g, " ");
+
+        return (
+          <div key={index}>
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-sm font-medium">
+                {readableLabel}
+              </span>
+
+              <span className="text-xs font-bold text-primary">
+                {prediction.confidence}%
+              </span>
+            </div>
+
+            <div className="h-2 rounded-full bg-muted overflow-hidden">
+              <motion.div
+                initial={{ width: 0 }}
+                animate={{
+                  width: `${prediction.confidence}%`,
+                }}
+                transition={{
+                  duration: 0.6,
+                  delay: index * 0.1,
+                }}
+                className="h-full rounded-full bg-primary"
+              />
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+)}
 
             {/* Symptoms */}
             <div className="rounded-3xl bg-card border border-border p-5 shadow-sm">
