@@ -10,6 +10,7 @@ import {
   Stethoscope,
   RefreshCw,
   Sprout,
+  CloudRain,
 } from "lucide-react";
 
 import PageHeader from "@/components/PageHeader";
@@ -32,6 +33,63 @@ type DiseaseResult = {
   prevention: string;
   predictions?: Prediction[];
 };
+const getWeatherRisk = async () => {
+  try {
+    const savedLocation =
+      localStorage.getItem("farmerLocation") ||
+      "Lucknow, Uttar Pradesh";
+
+    const locationResponse = await fetch(
+      `https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(
+        savedLocation
+      )}&count=1&language=en&format=json`
+    );
+
+    if (!locationResponse.ok) {
+      throw new Error("Location search failed");
+    }
+
+    const locationData = await locationResponse.json();
+
+    if (!locationData.results?.length) {
+      throw new Error("Location not found");
+    }
+
+    const { latitude, longitude } = locationData.results[0];
+
+    const weatherResponse = await fetch(
+      `https://api.open-meteo.com/v1/forecast?latitude=${latitude}&longitude=${longitude}&current=relative_humidity_2m,temperature_2m&daily=precipitation_probability_max&timezone=Asia%2FKolkata&forecast_days=3`
+    );
+
+    if (!weatherResponse.ok) {
+      throw new Error("Weather unavailable");
+    }
+
+    const weatherData = await weatherResponse.json();
+
+    const humidity = weatherData.current.relative_humidity_2m;
+    const temperature = weatherData.current.temperature_2m;
+    const rainTomorrow =
+      weatherData.daily.precipitation_probability_max[1];
+
+    if (humidity >= 80 && rainTomorrow >= 50) {
+      return "High fungal disease risk due to high humidity and rainfall forecast.";
+    }
+
+    if (temperature >= 35) {
+      return "Heat stress risk detected. Maintain adequate soil moisture.";
+    }
+
+    if (rainTomorrow >= 70) {
+      return "Heavy rainfall risk detected. Protect crops and avoid unnecessary irrigation.";
+    }
+
+    return "No major weather-related crop risk detected currently.";
+  } catch (error) {
+    console.error("Weather risk error:", error);
+    return "Weather risk information is currently unavailable.";
+  }
+};
 
 export default function DiseaseDetection() {
   const { t } = useLanguage();
@@ -40,6 +98,7 @@ export default function DiseaseDetection() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [analyzing, setAnalyzing] = useState(false);
   const [result, setResult] = useState<DiseaseResult | null>(null);
+  const [weatherRisk, setWeatherRisk] = useState("");
 
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
@@ -49,6 +108,7 @@ export default function DiseaseDetection() {
     );
     setSelectedFile(null);
     setResult(null);
+    setWeatherRisk("");
   };
 
   const handleUploadClick = () => {
@@ -70,6 +130,7 @@ export default function DiseaseDetection() {
     setImage(imageUrl);
     setSelectedFile(file);
     setResult(null);
+    setWeatherRisk("");
   };
 
   const handleAnalyze = async () => {
@@ -80,6 +141,7 @@ export default function DiseaseDetection() {
 
     setAnalyzing(true);
     setResult(null);
+    setWeatherRisk("");
 
     try {
       const formData = new FormData();
@@ -100,7 +162,43 @@ export default function DiseaseDetection() {
 
       const data: DiseaseResult = await response.json();
 
-      setResult(data);
+if (data.success) {
+  const imageData = await new Promise<string>((resolve, reject) => {
+  const reader = new FileReader();
+
+  reader.onload = () => resolve(reader.result as string);
+  reader.onerror = reject;
+
+  reader.readAsDataURL(selectedFile);
+});
+  const newScan = {
+    id: Date.now(),
+    crop: data.crop,
+    disease: data.disease,
+    confidence: data.confidence,
+    image: imageData,
+    date: new Date().toLocaleDateString(),
+    status: data.disease.toLowerCase().includes("healthy")
+      ? "Healthy"
+      : "Disease Detected",
+  };
+
+  const existingHistory = JSON.parse(
+    localStorage.getItem("scanHistory") || "[]"
+  );
+
+  localStorage.setItem(
+    "scanHistory",
+    JSON.stringify([newScan, ...existingHistory])
+  );
+}
+
+setResult(data);
+
+      if (data.success) {
+        const risk = await getWeatherRisk();
+        setWeatherRisk(risk);
+      }
     } catch (error) {
       console.error("Disease detection error:", error);
 
@@ -116,6 +214,7 @@ export default function DiseaseDetection() {
     setImage(null);
     setSelectedFile(null);
     setResult(null);
+    setWeatherRisk("");
 
     if (fileInputRef.current) {
       fileInputRef.current.value = "";
@@ -280,6 +379,38 @@ export default function DiseaseDetection() {
                 </div>
               </div>
             </div>
+
+            {/* Weather Risk Context */}
+            {weatherRisk && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="rounded-3xl bg-card border border-primary/20 p-5 shadow-sm"
+              >
+                <div className="flex items-center gap-3 mb-3">
+                  <div className="w-10 h-10 rounded-2xl bg-primary/10 flex items-center justify-center">
+                    <CloudRain className="w-5 h-5 text-primary" />
+                  </div>
+
+                  <div>
+                    <h3 className="font-bold">Weather Risk Context</h3>
+                    <p className="text-xs text-muted-foreground">
+                      Based on current local weather
+                    </p>
+                  </div>
+                </div>
+
+                <p className="text-sm text-muted-foreground leading-6">
+                  {weatherRisk}
+                </p>
+
+                <p className="text-xs text-muted-foreground mt-3">
+                  Weather risk is an advisory estimate and does not replace
+                  disease diagnosis.
+                </p>
+              </motion.div>
+            )}
+
             {/* AI Prediction Alternatives */}
 {result.predictions && result.predictions.length > 1 && (
   <div className="rounded-3xl bg-card border border-border p-5 shadow-sm">

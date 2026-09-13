@@ -1,3 +1,10 @@
+import CropGuide from "./pages/CropGuide";
+import ScanHistory from "./pages/ScanHistory";
+import ScanAnalytics from "./pages/ScanAnalytics";
+import ExpenseTracker from "./pages/ExpenseTracker";
+import ExpenseAnalytics from "./pages/ExpenseAnalytics";
+import Dashboard from "./pages/Dashboard";
+import AIChat from "./pages/AIChat";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -37,7 +44,15 @@ function AppContent() {
       <OfflineBanner />
       <Routes>
         <Route path="/" element={<Index />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/detect" element={<DiseaseDetection />} />
+        <Route path="/ai-chat" element={<AIChat />} />
+        <Route path="/crop-guide" element={<CropGuide />} />
+        <Route path="/scan-history" element={<ScanHistory />} />
+        <Route path="/scan-analytics" element={<ScanAnalytics />} />
+        <Route path="/expenses" element={<ExpenseTracker />} />
+        <Route path="/expense-analytics" element={<ExpenseAnalytics />} />
+
         <Route path="/weather" element={<WeatherAlerts />} />
         <Route path="/community" element={<Community />} />
         <Route path="/profile" element={<Profile />} />

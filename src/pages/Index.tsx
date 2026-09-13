@@ -1,7 +1,21 @@
 import { motion } from "framer-motion";
 import {
-  Mic, Camera, CloudSun, ShoppingCart, Landmark,
-  Brain, Scan, TrendingUp, Sprout, Globe
+  Mic,
+  Camera,
+  CloudSun,
+  ShoppingCart,
+  Landmark,
+  Brain,
+  Scan,
+  TrendingUp,
+  Sprout,
+  Globe,
+  BookOpen,
+  History,
+  BarChart3,
+  Wallet,
+  PieChart,
+  LayoutDashboard,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import FeatureCard from "@/components/FeatureCard";
@@ -104,6 +118,15 @@ export default function Index() {
           <FeatureCard icon={ShoppingCart} title={t.marketplace} description={t.buySellAI} to="/marketplace" variant="earth" />
         </motion.div>
         <motion.div variants={item}>
+  <FeatureCard
+    icon={BookOpen}
+    title="Crop Guide"
+    description="Learn about crops and diseases"
+    to="/crop-guide"
+    variant="primary"
+  />
+</motion.div>
+        <motion.div variants={item}>
           <FeatureCard icon={Scan} title={t.soilScanner} description={t.cameraAnalysis} to="/soil" variant="primary" />
         </motion.div>
         <motion.div variants={item}>
@@ -115,6 +138,51 @@ export default function Index() {
         <motion.div variants={item}>
           <FeatureCard icon={Camera} title={t.expenseTracker} description={t.photoBasedNoTyping} to="/expenses" variant="earth" />
         </motion.div>
+        <motion.div variants={item}>
+  <FeatureCard
+    icon={History}
+    title="Scan History"
+    description="View your previous crop scans"
+    to="/scan-history"
+    variant="primary"
+  />
+</motion.div>
+<motion.div variants={item}>
+  <FeatureCard
+    icon={BarChart3}
+    title="Scan Analytics"
+    description="View your crop health insights"
+    to="/scan-analytics"
+    variant="sky"
+  />
+</motion.div>
+<motion.div variants={item}>
+  <FeatureCard
+    icon={Wallet}
+    title="Expense Tracker"
+    description="Track your farming expenses"
+    to="/expenses"
+    variant="sky"
+  />
+</motion.div>
+<motion.div variants={item}>
+  <FeatureCard
+    icon={PieChart}
+    title="Expense Analytics"
+    description="Analyze your farming expenses"
+    to="/expense-analytics"
+    variant="primary"
+  />
+</motion.div>
+<motion.div variants={item}>
+  <FeatureCard
+    icon={LayoutDashboard}
+    title="Farmer Dashboard"
+    description="View your complete farming summary"
+    to="/dashboard"
+    variant="primary"
+  />
+</motion.div>
       </motion.div>
     </div>
   );
