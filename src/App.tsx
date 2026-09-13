@@ -5,6 +5,7 @@ import ExpenseTracker from "./pages/ExpenseTracker";
 import ExpenseAnalytics from "./pages/ExpenseAnalytics";
 import Dashboard from "./pages/Dashboard";
 import AIChat from "./pages/AIChat";
+import ProfitPredictor from "./pages/ProfitPredictor";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
@@ -23,7 +24,6 @@ import Profile from "./pages/Profile";
 import Emergency from "./pages/Emergency";
 import Marketplace from "./pages/Marketplace";
 import Schemes from "./pages/Schemes";
-import ProfitPredictor from "./pages/ProfitPredictor";
 import SoilScanner from "./pages/SoilScanner";
 import Expenses from "./pages/Expenses";
 import LanguageSettings from "./pages/LanguageSettings";
@@ -57,10 +57,11 @@ function AppContent() {
         <Route path="/community" element={<Community />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/emergency" element={<Emergency />} />
+         <Route path="/profit" element={<ProfitPredictor />} />
         <Route path="/marketplace" element={<Marketplace />} />
         <Route path="/schemes" element={<Schemes />} />
-        <Route path="/profit" element={<ProfitPredictor />} />
         <Route path="/soil" element={<SoilScanner />} />
+        
         <Route path="/expenses" element={<Expenses />} />
         <Route path="/language" element={<LanguageSettings />} />
         <Route path="/voice" element={<VoiceAssistant />} />
