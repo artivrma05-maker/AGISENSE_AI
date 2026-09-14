@@ -149,7 +149,7 @@ export default function DiseaseDetection() {
       formData.append("image", selectedFile);
 
       const response = await fetch(
-        "http://localhost:5000/api/detect-disease",
+        "https://agisense-backend.onrender.com/api/detect-disease",
         {
           method: "POST",
           body: formData,
