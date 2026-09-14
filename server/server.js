@@ -203,7 +203,7 @@ app.post(
 
       const mlResponse = await axios.post(
 
-        "https://agisense-ml.onrender.com/predict",
+        "https://agisense-ml-service.onrender.com/predict",
 
         form,
 
